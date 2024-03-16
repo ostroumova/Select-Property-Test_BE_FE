@@ -1,14 +1,37 @@
 import { Router, Request, Response } from "express";
 import { Property } from "../models/Property";
 import Joi from "joi";
+import fs from "fs";
+import path from "path";
 
 let properties: Property[] = [
   {
     id: 1,
-    address: "Manchester One",
+    address: "Manchester",
     price: 500000,
     rating: 3,
-    image: "/assets/images/ManchesterOne.jpg",
+    image: "/assets/images/Manchester.jpg",
+  },
+  {
+    id: 2,
+    address: "London",
+    price: 500000,
+    rating: 4,
+    image: "/assets/images/London.jpg",
+  },
+  {
+    id: 3,
+    address: "Barcelona",
+    price: 300000,
+    rating: 5,
+    image: "/assets/images/Barcelona.jpg",
+  },
+  {
+    id: 4,
+    address: "Valencia",
+    price: 250000,
+    rating: 5,
+    image: "/assets/images/Valencia.jpg",
   },
 ];
 
@@ -23,7 +46,13 @@ const propertySchema = Joi.object({
 });
 
 router.get("/", (req: Request, res: Response) => {
-  res.json(properties);
+  const propertiesWithImages = properties.map((property) => {
+    const imagePath = path.join(__dirname, "..", "..", property.image);
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageBase64 = imageBuffer.toString("base64");
+    return { ...property, image: `data:image/jpeg;base64,${imageBase64}` };
+  });
+  res.json(propertiesWithImages);
 });
 
 router.post("/", (req: Request, res: Response) => {
