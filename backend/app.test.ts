@@ -7,7 +7,7 @@ describe("GET /properties", () => {
 
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body).toHaveLength(1);
+    expect(response.body).toHaveLength(4);
   });
 });
 
@@ -39,6 +39,5 @@ describe("POST /properties", () => {
       .send(malformedProperty);
 
     expect(response.statusCode).toBe(400);
-    // expect(response.error).toBe('"price" must be a number');
   });
 });
