@@ -10,7 +10,6 @@ export const PropertyList: React.FC = () => {
     axios
       .get("http://localhost:3000/properties")
       .then((response) => {
-        console.log(response.data);
         setProperties(response.data);
       })
       .catch((error) => {
