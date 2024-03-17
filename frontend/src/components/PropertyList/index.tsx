@@ -19,7 +19,7 @@ export const PropertyList: React.FC = () => {
   }, []);
 
   return (
-    <div className="properties-container">
+    <div className="properties-container" data-testid="properties-container">
       {properties.map((property: Property) => (
         <div className="properties-container__item" key={property.id}>
           <img

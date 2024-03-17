@@ -2,14 +2,11 @@ import React from "react";
 import "./styles.scss";
 
 type HeaderProps = {
-  title?: string;
-  subtitle?: string;
+  title: string;
+  subtitle: string;
 };
 
-const Header: React.FC<HeaderProps> = ({
-  title = "Rent out your property",
-  subtitle = "Make extra money",
-}) => {
+const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
   return (
     <header>
       <h1>{title}</h1>
