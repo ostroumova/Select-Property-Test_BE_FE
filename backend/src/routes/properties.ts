@@ -43,7 +43,6 @@ const propertySchema = Joi.object({
   address: Joi.string().required(),
   price: Joi.number().required(),
   rating: Joi.number().required(),
-  // image: Joi.binary().required(),
 });
 
 router.get("/", (req: Request, res: Response) => {
@@ -73,7 +72,7 @@ router.post("/", upload.any(), (req: Request, res: Response) => {
         console.log("file was written succesfully");
         newProperty.image = `/assets/images/${imgObj.originalname}`;
       } catch (err) {
-        console.error(err);
+        return res.status(400).send(err);
       }
     }
   }
