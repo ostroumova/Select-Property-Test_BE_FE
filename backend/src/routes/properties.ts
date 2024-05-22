@@ -39,7 +39,6 @@ let properties: Property[] = [
 const router = Router();
 
 const propertySchema = Joi.object({
-  id: Joi.number().required(),
   address: Joi.string().required(),
   price: Joi.number().required(),
   rating: Joi.number().required(),
@@ -79,7 +78,12 @@ router.post("/", upload.any(), (req: Request, res: Response) => {
       }
     }
   }
-
+  const id = Math.max(
+    ...properties.map((property) => {
+      return property.id;
+    })
+  );
+  newProperty.id = id + 1;
   properties.push(newProperty);
 
   res

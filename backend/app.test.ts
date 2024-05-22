@@ -14,16 +14,22 @@ describe("GET /properties", () => {
 describe("POST /properties", () => {
   it("status:201 new property is added to list of properties", async () => {
     const newProperty = {
-      id: 2,
       address: "new address",
       price: 500,
       rating: 3,
-      image: "url",
+    };
+
+    const expectedResponse = {
+      address: "new address",
+      price: 500,
+      rating: 3,
+      id: 5,
+      image: "data:image/jpeg;base64,",
     };
     const response = await request(app).post("/properties").send(newProperty);
 
     expect(response.statusCode).toBe(201);
-    expect(response.body).toEqual(newProperty);
+    expect(response.body).toEqual(expectedResponse);
   });
   it("returns 400 Bad Request when required field is the wrong type", async () => {
     const malformedProperty = {
