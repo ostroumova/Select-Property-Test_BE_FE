@@ -61,16 +61,19 @@ router.post("/", upload.any(), (req: Request, res: Response) => {
     return res.status(400).send(error.details[0].message);
   }
   const newProperty: Property = req.body;
+  let imgBuffer = "";
   if (Array.isArray(req.files)) {
     const imgObj = req.files.find((file) => file.fieldname === "image");
+
     if (imgObj) {
       try {
         fs.writeFileSync(
-          path.resolve(`assets/images/${imgObj.originalname}`),
+          path.resolve(`assets/images/${newProperty.address}.jpg`),
           imgObj.buffer
         );
         console.log("file was written succesfully");
-        newProperty.image = `/assets/images/${imgObj.originalname}`;
+        imgBuffer = imgObj.buffer.toString("base64");
+        newProperty.image = `/assets/images/${newProperty.address}.jpg`;
       } catch (err) {
         return res.status(400).send(err);
       }
@@ -78,9 +81,10 @@ router.post("/", upload.any(), (req: Request, res: Response) => {
   }
 
   properties.push(newProperty);
-  console.log(properties);
 
-  res.status(201).json(newProperty);
+  res
+    .status(201)
+    .json({ ...newProperty, image: `data:image/jpeg;base64,${imgBuffer}` });
 });
 
 export default router;
