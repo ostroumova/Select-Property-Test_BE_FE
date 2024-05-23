@@ -1,8 +1,13 @@
 import axios from "axios";
 import React, { FormEvent } from "react";
 import "./styles.scss";
+import { Property } from "../../types";
 
-export const PropertyForm: React.FC = () => {
+type PropertyFormProp = {
+  addProperty: (property: Property) => void;
+};
+
+export const PropertyForm: React.FC<PropertyFormProp> = ({ addProperty }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -14,7 +19,8 @@ export const PropertyForm: React.FC = () => {
         },
       })
       .then(function (response) {
-        console.log(response);
+        addProperty(response.data);
+
         formElement.reset();
       })
 
@@ -27,7 +33,6 @@ export const PropertyForm: React.FC = () => {
     <div className="upload-img-form">
       <h3>Add your property</h3>
       <form onSubmit={handleSubmit}>
-        <input type="number" name="id" placeholder="ID" required />
         <input type="text" name="address" placeholder="Address" required />
         <input type="number" name="price" placeholder="Price" required />
         <input type="number" name="rating" placeholder="Rating" required />

@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect } from "react";
 import { Property } from "../../types";
 import "./styles.scss";
 
-export const PropertyList: React.FC = () => {
-  const [properties, setProperties] = useState([]);
+type PropertyListPrors = {
+  properties: Property[];
+  setProperties: (properties: Property[]) => void;
+};
 
+export const PropertyList: React.FC<PropertyListPrors> = ({
+  properties,
+  setProperties,
+}) => {
   useEffect(() => {
     axios
       .get("http://localhost:3000/properties")
@@ -15,7 +21,7 @@ export const PropertyList: React.FC = () => {
       .catch((error) => {
         console.error("Error fetching properties", error);
       });
-  }, []);
+  }, [setProperties]);
 
   return (
     <div className="properties-container" data-testid="properties-container">
